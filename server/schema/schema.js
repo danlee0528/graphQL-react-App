@@ -84,30 +84,42 @@ const Mutation = new GraphQLObjectType({
             type: AuthorType,
             args:{
                 name: {type: new GraphQLNonNull(GraphQLString)},
-                age: {type: new GraphQLNonNull(GraphQLList)}
+                age: {type: new GraphQLNonNull(GraphQLInt)}
             },
-            resolve(parent, args){
+            async resolve(parent, args){
                 let author  = new Author({
                     name: args.name,
                     age: args.age
                 });
-                return author.save();
+                try{
+                    const savedAuthhor = await author.save();
+                    return savedAuthhor;
+                }catch(err){
+                    const error = new GraphQLError(err);
+                    return error;
+                }
             }
         },
         addBook: {
             type: BookType,
             args:{
-                name: {type: new GrraphQLNonoNull(GraphQLString)},
+                name: {type: new GraphQLNonNull(GraphQLString)},
                 genre: {type: new GraphQLNonNull(GraphQLString)},
                 authorid: {type: new GraphQLNonNull(GraphQLID)}
             },
-            resolve(parent, args){
+            async resolve(parent, args){
                 let book = new Book({
                     name: args.name,
                     genre:  args.genre,
                     authorId: args.authorId
                 });
-                return book.save();
+                try{
+                    const savedBook = await book.save();
+                    return savedBook;
+                }catch(err){
+                    const error = new graphql.GraphQLError(err);
+                    return error;
+                }
             }
         }
     }
