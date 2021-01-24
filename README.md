@@ -1,1 +1,6 @@
-# graphQL-react-App
+# Technology
+- GraphQL
+- React
+- Express/Node
+- Apollo
+- MongoDB
